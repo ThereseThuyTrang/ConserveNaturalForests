@@ -1,15 +1,18 @@
-# TripAdvisor Review Extractor
+# TripAdvisor Review Extractor 🌟
 
-## Overview
+![image](https://github.com/tahoangthuytrang/ConserveNaturalForests/assets/169294624/e2dd0edb-eea1-4078-b9d2-2b5182e1b6a6)
+
+
+## Overview 🐶
 The TripAdvisor Review Extractor is a Python script designed to extract and organize reviews from a text file downloaded from TripAdvisor. The script parses each review, extracts relevant information such as review content, written date, travel type, number of contributions of the reviewer, number of likes, and personal information of the reviewer. It then saves the extracted data into a JSON file for further analysis or processing.
 
-## Features
+## Features ✨
 - Extracts review content, written date, travel type, number of contributions, number of likes, and personal information from TripAdvisor reviews.
 - Ignores replies from the host to focus only on the review content.
 - Organizes extracted data into a structured JSON format.
 - Flexible and easy to use.
 
-## How to Use
+## How to Use 🚀
 1. **Input File**: Prepare a text file containing [TripAdvisor reviews](https://www.tripadvisor.com/Attraction_Review-g303916-d10767548-Reviews-or20-Conserve_Natural_Forests-Pai_Mae_Hong_Son_Province.html). Each review should follow the format as described in the project requirements.
 2. **Run the Script**: Execute the Python script `tripadvisor_review_extractor.py`, providing the path to the input file as an argument.
    ```bash
@@ -17,10 +20,10 @@ The TripAdvisor Review Extractor is a Python script designed to extract and orga
    ```
 3. **Output File**: The script will generate a JSON file named extracted_reviews.json containing the extracted data.
 
-## Requirements
+## Requirements 📋
 - Python 3.x
 
-## Sample Input
+## Sample Input 📝
 The input file should contain TripAdvisor reviews in the following format:
 ```
 Sargon N
@@ -39,7 +42,7 @@ Thank you for your kind words! We're glad to hear that your family enjoyed the v
 This response is the subjective opinion of the management representative and not of Tripadvisor LLC.
 ```
 
-## Sample Output
+## Sample Output 📄
 The extracted data will be saved in a JSON file (extracted_reviews.json) with the following structure:
 ```
 [
