@@ -2,11 +2,12 @@ import json
 import re
 from datetime import datetime
 
+
 def extract_reviews(input_file):
     reviews = []  # List to store extracted reviews
     review_id = 1  # Initialize review ID
-    
-    with open(input_file, 'r') as file:
+
+    with open(input_file, "r") as file:
         review_content = ""  # Initialize review content
         written_date = None  # Initialize written date
         travel_type = None  # Initialize travel type
@@ -15,9 +16,22 @@ def extract_reviews(input_file):
         likes = None  # Initialize number of likes
         in_reply = False  # Flag to track if in reply
         for line in file:
-            if "This review is the subjective opinion of a Tripadvisor member and not of Tripadvisor LLC. Tripadvisor performs checks on reviews as part of our industry-leading trust & safety standards. Read our transparency report to learn more." in line:
+            if (
+                "This review is the subjective opinion of a Tripadvisor member and not of Tripadvisor LLC. Tripadvisor performs checks on reviews as part of our industry-leading trust & safety standards. Read our transparency report to learn more."
+                in line
+            ):
                 # End of review detected, add the review to the list
-                reviews.append({"review_id": review_id, "review_content": review_content.strip(), "written_date": written_date, "travel_type": travel_type, "num_contributions": num_contributions, "personal_info": personal_info, "likes": likes})
+                reviews.append(
+                    {
+                        "review_id": review_id,
+                        "review_content": review_content.strip(),
+                        "written_date": written_date,
+                        "travel_type": travel_type,
+                        "num_contributions": num_contributions,
+                        "personal_info": personal_info,
+                        "likes": likes,
+                    }
+                )
                 review_id += 1  # Increment review ID
                 review_content = ""  # Reset review content
                 written_date = None  # Reset written date
@@ -33,7 +47,9 @@ def extract_reviews(input_file):
                 travel_type = "Couples"
             elif line.strip().endswith("• Solo"):
                 travel_type = "Solo"
-            elif line.strip().endswith("contribution") or line.strip().endswith("contributions"):
+            elif line.strip().endswith("contribution") or line.strip().endswith(
+                "contributions"
+            ):
                 # Extract number of contributions
                 match = re.search(r"(\d+)\s(contribution|contributions)", line)
                 if match:
@@ -44,14 +60,19 @@ def extract_reviews(input_file):
                 if match:
                     written_date_str = match.group(1)
                     # Parse written date into datetime object
-                    written_date = datetime.strptime(written_date_str, "%B %d, %Y").strftime("%Y-%m-%d")
+                    written_date = datetime.strptime(
+                        written_date_str, "%B %d, %Y"
+                    ).strftime("%Y-%m-%d")
             elif line.strip().isdigit():
                 # Extract number of likes
                 likes = int(line.strip())
             elif "ConserveForests1" in line:
                 # Start of reply detected, set in_reply flag to True
                 in_reply = True
-            elif "This response is the subjective opinion of the management representative and not of Tripadvisor LLC." in line:
+            elif (
+                "This response is the subjective opinion of the management representative and not of Tripadvisor LLC."
+                in line
+            ):
                 # End of reply detected, set in_reply flag to False
                 in_reply = False
             elif not in_reply:
@@ -61,20 +82,48 @@ def extract_reviews(input_file):
                     if personal_info is None:
                         personal_info = line.strip()  # Initialize personal information
                     else:
-                        personal_info += " " + line.strip()  # Append to existing personal information
+                        personal_info += (
+                            " " + line.strip()
+                        )  # Append to existing personal information
                 else:
                     # Append line to review content
                     review_content += line
-        
+
         # Add the last review (if any) to the list
         if review_content.strip():
-            reviews.append({"review_id": review_id, "review_content": review_content.strip(), "written_date": written_date, "travel_type": travel_type, "num_contributions": num_contributions, "personal_info": personal_info, "likes": likes})
-    
+            reviews.append(
+                {
+                    "review_id": review_id,
+                    "review_content": review_content.strip(),
+                    "written_date": written_date,
+                    "travel_type": travel_type,
+                    "num_contributions": num_contributions,
+                    "personal_info": personal_info,
+                    "likes": likes,
+                }
+            )
+
     return reviews
 
+
 def save_reviews_to_json(reviews, output_file):
-    with open(output_file, 'w') as file:
+    with open(output_file, "w") as file:
         json.dump(reviews, file, indent=4)
+
+
+def export_review_to_txt(review):
+    # Define the filename for the review
+    filename = f"{review['review_id']}.txt"
+    # Write review information to a text file
+    with open(filename, "w") as file:
+        file.write(f"{review['personal_info']}\n")
+        # file.write(f"Review ID: {review['review_id']}\n")
+        file.write(f"{review['review_content']}\n")
+        file.write(f"{review['written_date']}\n")
+        file.write(f"{review['travel_type']}\n")
+        # file.write(f"{review['num_contributions']}\n")
+        # file.write(f"{review['likes']}\n")
+
 
 # Input file containing the reviews
 input_file = "reviews.txt"
@@ -86,5 +135,10 @@ extracted_reviews = extract_reviews(input_file)
 
 # Save extracted reviews to a JSON file
 save_reviews_to_json(extracted_reviews, output_file)
-
 print("Reviews extracted and saved to", output_file)
+
+
+# Export each review information to a text file
+for review in extracted_reviews:
+    export_review_to_txt(review)
+print("Individual review information exported to text files.")
