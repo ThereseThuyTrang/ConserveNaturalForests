@@ -1,6 +1,7 @@
 import json
 import re
 from datetime import datetime
+import pandas as pd
 
 
 def extract_reviews(input_file):
@@ -125,10 +126,19 @@ def export_review_to_txt(review):
         # file.write(f"{review['likes']}\n")
 
 
+def export_reviews_to_excel(reviews, output_file):
+    # Create a DataFrame from the reviews list
+    df = pd.DataFrame(reviews)
+    # Export the DataFrame to an Excel file
+    df.to_excel(output_file, index=False)
+
+
 # Input file containing the reviews
 input_file = "reviews.txt"
 # Output file to save the extracted reviews as JSON
 output_file = "extracted_reviews.json"
+# Output file to save the extracted reviews as Excel
+output_file_excel = "extracted_reviews.xlsx"
 
 # Extract reviews from the input file
 extracted_reviews = extract_reviews(input_file)
@@ -137,8 +147,11 @@ extracted_reviews = extract_reviews(input_file)
 save_reviews_to_json(extracted_reviews, output_file)
 print("Reviews extracted and saved to", output_file)
 
-
 # Export each review information to a text file
 for review in extracted_reviews:
     export_review_to_txt(review)
 print("Individual review information exported to text files.")
+
+# Export the reviews to an Excel file
+export_reviews_to_excel(extracted_reviews, output_file_excel)
+print("Reviews exported to Excel file:", output_file_excel)
