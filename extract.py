@@ -134,11 +134,11 @@ def export_reviews_to_excel(reviews, output_file):
 
 
 # Input file containing the reviews
-input_file = "reviews.txt"
+input_file = "reviews_sadhana.txt"
 # Output file to save the extracted reviews as JSON
-output_file = "extracted_reviews.json"
+output_file = "extracted_reviews_sadhana.json"
 # Output file to save the extracted reviews as Excel
-output_file_excel = "extracted_reviews.xlsx"
+output_file_excel = "extracted_reviews_sadhana.xlsx"
 
 # Extract reviews from the input file
 extracted_reviews = extract_reviews(input_file)
